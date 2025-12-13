@@ -1,0 +1,17 @@
+# Ignorar arquivos sensíveis
+backend/.env
+
+# Ignorar venv (ambiente virtual)
+backend/venv/
+
+# Ignorar arquivos compilados de Python
+backend/app/__pycache__/
+
+# Ignorar node_modules (se estiver usando Node)
+frontend/node_modules/
+
+# Ignorar build/ (arquivos de compilação)
+build/
+
+# Ignorar arquivos de log
+*.log
