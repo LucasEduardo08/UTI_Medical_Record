@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Novo Paciente</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div id="navbar"></div>
+
+<div class="container">
+    <h2>Cadastrar Novo Paciente</h2>
+    <button class="btn" onclick="voltarDashboard()">← Voltar</button>
+
+    <form id="form-novo-paciente">
+        <input type="text" id="paciente-nome" placeholder="Nome" required>
+        <input type="text" id="paciente-cpf" placeholder="CPF" required>
+        <textarea id="paciente-diagnostico" placeholder="Diagnóstico"></textarea>
+        <input type="password" id="paciente-private-key" placeholder="Chave Privada" required>
+
+        <button class="btn btn-primary">Cadastrar</button>
+    </form>
+</div>
+
+<script src="/js/prontuario.js"></script>
+<script>
+function voltarDashboard() {
+    window.location.href = "/pages/dashboard.html";
+}
+</script>
+
+</body>
+</html>

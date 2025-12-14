@@ -1,0 +1,13 @@
+{
+  "name": "prontuario-uti-frontend",
+  "version": "1.0.0",
+  "description": "Sistema de Prontuário UTI com Blockchain",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "live-server public"
+  },
+  "dependencies": {
+    "web3": "^4.3.0"
+  }
+}

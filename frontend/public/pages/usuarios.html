@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Usuários</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div id="navbar"></div>
+
+<div class="container">
+    <h2>Gerenciar Usuários</h2>
+    <button class="btn" onclick="voltarDashboard()">← Voltar</button>
+
+    <form id="form-novo-usuario">
+        <input type="text" id="usuario-endereco" placeholder="Endereço" required>
+        <input type="text" id="usuario-nome" placeholder="Nome" required>
+
+        <select id="usuario-cargo">
+            <option value="Medico">Médico</option>
+            <option value="Enfermeiro">Enfermeiro</option>
+            <option value="Tecnico">Técnico</option>
+        </select>
+
+        <button class="btn btn-primary">Criar Usuário</button>
+    </form>
+</div>
+
+<script src="../js/cad_usuario.js"></script>
+<script>
+function voltarDashboard() {
+    window.location.href = "/pages/dashboard.html";
+}
+</script>
+</body>
+</html>

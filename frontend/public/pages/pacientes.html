@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Pacientes</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div id="navbar"></div>
+
+<div class="container">
+    <h2>Lista de Pacientes</h2>
+    <button class="btn" onclick="voltarDashboard()">← Voltar</button>
+    <div id="pacientes-lista" class="cards-grid"></div>
+</div>
+
+<script src="/js/pacientes.js"></script>
+<script>
+function voltarDashboard() {
+    window.location.href = "/pages/dashboard.html";
+}
+</script>
+</body>
+</html>
