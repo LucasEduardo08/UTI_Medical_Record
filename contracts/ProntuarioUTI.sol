@@ -2,6 +2,8 @@
 pragma solidity ^0.8.0;
 
 contract ProntuarioUTI {
+    address[] private listaUsuarios;
+
     struct Usuario {
         address enderecoCarteira;
         string nome;
@@ -52,9 +54,10 @@ contract ProntuarioUTI {
         require(usuarios[msg.sender].ativo, "Usuario nao autorizado");
         _;
     }
-    
+        
     constructor() {
         admin = msg.sender;
+
         usuarios[admin] = Usuario({
             enderecoCarteira: admin,
             nome: "Administrador",
@@ -62,7 +65,10 @@ contract ProntuarioUTI {
             ativo: true,
             dataCriacao: block.timestamp
         });
+
+        listaUsuarios.push(admin); // ESSENCIAL
     }
+
     
     function criarUsuario(
         address _endereco,
@@ -70,7 +76,7 @@ contract ProntuarioUTI {
         string memory _cargo
     ) public apenasAdmin {
         require(!usuarios[_endereco].ativo, "Usuario ja existe");
-        
+
         usuarios[_endereco] = Usuario({
             enderecoCarteira: _endereco,
             nome: _nome,
@@ -78,10 +84,13 @@ contract ProntuarioUTI {
             ativo: true,
             dataCriacao: block.timestamp
         });
-        
+
+        // ESSENCIAL
+        listaUsuarios.push(_endereco);
+
         emit UsuarioCriado(_endereco, _nome, _cargo);
     }
-    
+
     function criarPaciente(
         string memory _nome,
         string memory _cpf,
@@ -143,6 +152,10 @@ contract ProntuarioUTI {
         view 
         returns (Usuario memory) {
         return usuarios[_endereco];
+    }
+
+    function obterTodosUsuarios() public view returns (address[] memory) {
+    return listaUsuarios;
     }
     
     function desativarPaciente(uint256 _pacienteId) public apenasUsuarioAtivo {

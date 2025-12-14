@@ -1,11 +1,20 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from blockchain import BlockchainService
 from auth import gerar_token, token_requerido
 import os
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder="../frontend/public",
+    static_url_path=""
+)
+
 CORS(app)
+
+@app.route("/")
+def index():
+    return send_from_directory(app.static_folder, "index.html")
 
 blockchain = BlockchainService()
 
@@ -62,6 +71,14 @@ def criar_usuario():
     
     return jsonify(resultado)
 
+@app.route('/api/obterusuarios', methods=['GET'])
+def listar_usuarios():
+    try:
+        usuarios = blockchain.obter_todos_usuarios()
+        return jsonify(usuarios)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/pacientes', methods=['POST'])
 @token_requerido
 def criar_paciente():
@@ -77,15 +94,14 @@ def criar_paciente():
     
     return jsonify(resultado)
 
-@app.route('/api/pacientes/<int:paciente_id>', methods=['GET'])
-@token_requerido
-def obter_paciente(paciente_id):
-    paciente = blockchain.obter_paciente(paciente_id)
-    
-    if not paciente:
-        return jsonify({'error': 'Paciente não encontrado'}), 404
-    
-    return jsonify(paciente)
+@app.route('/api/obterpacientes', methods=['GET'])
+def listar_pacientes():
+    try:
+        # Chama a função que já retorna todos os pacientes ativos
+        pacientes = blockchain.obter_todos_pacientes()  
+        return jsonify(pacientes)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/registros', methods=['POST'])
 @token_requerido

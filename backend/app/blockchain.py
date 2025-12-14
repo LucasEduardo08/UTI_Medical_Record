@@ -11,7 +11,7 @@ class BlockchainService:
         self.contract_address = os.getenv('CONTRACT_ADDRESS')
         
         # Carregar ABI do contrato
-        with open('../../build/contracts/ProntuarioUTI.json', 'r') as f:
+        with open('../build/contracts/ProntuarioUTI.json', 'r') as f:
             contract_json = json.load(f)
             self.contract_abi = contract_json['abi']
         
@@ -47,6 +47,31 @@ class BlockchainService:
         except Exception as e:
             return {'success': False, 'error': str(e)}
     
+    def obter_usuario(self, endereco):
+        try:
+            usuario = self.contract.functions.usuarios(endereco).call()
+            return {
+                'enderecoCarteira': usuario[0],
+                'nome': usuario[1],
+                'cargo': usuario[2],
+                'ativo': usuario[3],
+                'dataCriacao': usuario[4]
+            }
+        except Exception as e:
+            print(e)
+            return None
+
+    def obter_todos_usuarios(self):
+        enderecos = self.contract.functions.obterTodosUsuarios().call()
+        usuarios = []
+
+        for endereco in enderecos:
+            u = self.obter_usuario(endereco)
+            if u and u['ativo']:
+                usuarios.append(u)
+
+        return usuarios
+
     def criar_paciente(self, user_address, user_key, nome, cpf, diagnostico):
         try:
             nonce = self.w3.eth.get_transaction_count(user_address)
@@ -119,6 +144,19 @@ class BlockchainService:
         except Exception as e:
             print(e)
             return None
+    
+    def obter_todos_pacientes(self):
+        todos_pacientes = []
+        try:
+            total = self.contract.functions.totalPacientes().call()  # pega o total de pacientes
+            for paciente_id in range(1, 100):  # IDs começam em 1
+                paciente = self.obter_paciente(paciente_id)
+                if paciente is not None and paciente['ativo']:
+                    todos_pacientes.append(paciente)
+            return todos_pacientes
+        except Exception as e:
+            print(e)
+            return []
     
     def obter_registros_paciente(self, paciente_id):
         try:
